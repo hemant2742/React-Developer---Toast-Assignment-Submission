@@ -1,23 +1,40 @@
-import logo from './logo.svg';
+// App.js
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import Toast from './components/toast';
+import Home from './components/home/index';
 
-function App() {
+function App({ message, hideInfoIcon, withoutAction, withoutDivider, crossIcon, notificationIcon }) {
+  const [showToast, setShowToast] = useState(false);
+
+  const showToastFor3Seconds = () => {
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    if (showToast === true) {
+      showToastFor3Seconds();
+    }
+  }, [showToast]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Home setShowToast={setShowToast} />
+      {showToast && (
+        <div className='toast-container'>
+          <Toast
+            message={message}
+            hideInfoIcon={hideInfoIcon}
+            withoutAction={withoutAction}
+            withoutDivider={withoutDivider}
+            crossIcon={crossIcon}
+            notificationIcon={notificationIcon}
+          />
+        </div>
+      )}
     </div>
   );
 }
